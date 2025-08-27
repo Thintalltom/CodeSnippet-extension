@@ -15,7 +15,6 @@ const Auth = () => {
             <h2 className="font-bold text-3xl">Code snippet Manager</h2>
             <h6>Sign in to manage your code snippet</h6>
             {!showLogin ?
-
                 <AuthForm
                     buttonText="Create Account"
                     fields={[
@@ -43,7 +42,6 @@ const Auth = () => {
                     ]}
                     onSubmit={(values) => console.log("Register:", values)}
                 />
-
                 :
                 <AuthForm
                     buttonText="Login"
@@ -65,10 +63,7 @@ const Auth = () => {
                     ]}
                     onSubmit={(values) => console.log("Login:", values)}
                 />
-
-
             }
-
             {!showLogin ?
                 <div className="flex gap-[5px]">
                     <p>Already have an account?</p> <button onClick={() => setShowLogin(!showLogin)}>Sign In</button> </div>
