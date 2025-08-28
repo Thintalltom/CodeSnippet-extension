@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { IoPersonOutline, IoLockClosedOutline } from "react-icons/io5";
-import { CiMail } from "react-icons/ci";
+// import { IoPersonOutline, IoLockClosedOutline } from "react-icons/io5";
+// import { CiMail } from "react-icons/ci";
 import { BiShowAlt, BiSolidShow } from "react-icons/bi";
 
 interface InputField {
@@ -10,19 +10,23 @@ interface InputField {
   icon: React.ReactNode;
   name: string;
 }
-
 interface AuthFormProps {
   fields: InputField[];
   buttonText: string;
   onSubmit: (values: Record<string, string>) => void;
+  values: Record<string, string>;   
+  setValues: React.Dispatch<React.SetStateAction<Record<string, string>>>; 
+
 }
 
-export const AuthForm: React.FC<AuthFormProps> = ({ fields, buttonText, onSubmit }) => {
-  const [values, setValues] = useState<Record<string, string>>({});
+
+export const AuthForm: React.FC<AuthFormProps> = ({ fields, buttonText, onSubmit, values,         
+  setValues  }) => {
+//   const [values, setValues] = useState<Record<string, string>>({});
   const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (name: string, value: string) => {
-    setValues((prev) => ({ ...prev, [name]: value }));
+    setValues((prev: any) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {

@@ -16,9 +16,5 @@
   "permissions": [
     "identity",
     "storage"
-  ],
-  "oauth2": {
-    "client_id": "your-google-client-id",
-    "scopes": ["email", "profile"]
-  }
+  ]
 }

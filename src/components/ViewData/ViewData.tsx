@@ -20,7 +20,7 @@ const [copiedId, setCopiedId] = useState<string | null>(null);
       {prompt.map((item, index) => (
         <div
           key={index}
-          className="flex flex-col gap-[10px] p-[20px] w-fit border-[1.5px] rounded-[10px] max-w-[500px]"
+          className="flex flex-col gap-[10px] p-[20px] w-fit border-[1.5px] rounded-[10px] max-w-[350px]"
         >
           <h1 className="font-bold text-lg">{item.title}</h1>
 

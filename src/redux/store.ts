@@ -1,9 +1,11 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import promptReducer from "./slice/SavedCode";
 import userReducer from "./slice/UserProfile";
+import sessionReducer from './slice/UserSession'
 const rootReducer = combineReducers({
   prompt: promptReducer,
-  user: userReducer
+  user: userReducer,
+  session: sessionReducer
 });
 
 

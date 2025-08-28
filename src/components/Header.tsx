@@ -1,17 +1,13 @@
-import { useEffect, useState } from "react"
+import {  useState } from "react"
 import AddSnippet from "./AddSnippet"
 import { FaCirclePlus } from "react-icons/fa6";
 import Search from "./searchComponent/Search";
 import DownSelect from '../components/downSelect/downSelect'
-import { FcGoogle } from "react-icons/fc";
 import { useSelector } from "react-redux";
-// import {  signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-// import {auth } from "../Firebase/Firebase";
-import { FiGithub } from "react-icons/fi";
-import supabase from "../utils/supabase";
-import { useDispatch } from "react-redux";
-import type { UserProfile } from "../types";
-import { setUserProfile } from "../redux/slice/UserProfile";
+// import supabase from "../utils/supabase";
+// import { useDispatch } from "react-redux";
+// import type { UserProfile } from "../types";
+// import { setUserProfile } from "../redux/slice/UserProfile";
 import type { RootState } from "../redux/store";
 // import { supabase } from "./supabaseClient";
 // import type { Session } from '@supabase/supabase-js'
@@ -23,7 +19,7 @@ const Header = () => {
       const {profile } = useSelector(
             (state: RootState) => state.user
         );
-    const dispatch = useDispatch()
+    // const dispatch = useDispatch()
     const [showForm, setShowForm] = useState<boolean>(false)
     const [showPart, setShowPart] = useState<boolean>(false)
     // const signInWithGoogle = async () => {
@@ -71,51 +67,52 @@ const Header = () => {
     //     if (error) console.error("Error logging in:", error);
     //     else console.log("Redirecting to Google...");
     // };
-    const handleLogin = async () => {
-  try {
-    // Get OAuth token using Chrome Identity API
-    const result = await chrome.identity.getAuthToken({ 
-      interactive: true,
-      scopes: ['email', 'profile']
-    });
+//     const handleLogin = async () => {
+//   try {
+//     // Get OAuth token using Chrome Identity API
+//     const result = await chrome.identity.getAuthToken({ 
+//       interactive: true,
+//       scopes: ['email', 'profile']
+//     });
     
-    if (!result.token) {
-      throw new Error('No token received');
-    }
+//     if (!result.token) {
+//       throw new Error('No token received');
+//     }
     
-    // Use token with Supabase
-    const { data } = await supabase.auth.setSession({
-      access_token: result.token,
-      refresh_token: '' // Chrome handles refresh
-    });
+//     // Use token with Supabase
+//     const { data } = await supabase.auth.setSession({
+//       access_token: result.token,
+//       refresh_token: '' // Chrome handles refresh
+//     });
     
-    if (data.session) {
-      setShowPart(true);
-      // Handle user data
-    }
-  } catch (error) {
-    console.error('Auth error:', error);
-  }
-};
+//     if (data.session) {
+//       setShowPart(true);
+//       // Handle user data
+//     }
+//   } catch (error) {
+//     console.error('Auth error:', error);
+//   }
+// };
 
 
-    useEffect(() => {
-        // Supabase restores session from URL hash
-        supabase.auth.getSession().then(({ data: { session } }) => {
-            if (session) {
-                const userData = session?.user?.user_metadata as UserProfile;
-                dispatch(setUserProfile(userData));
-                 setShowPart(true)
-            }
-        });
-    }, []);
+//     useEffect(() => {
+//         // Supabase restores session from URL hash
+//         supabase.auth.getSession().then(({ data: { session } }) => {
+//             if (session) {
+//                 const userData = session?.user?.user_metadata as UserProfile;
+//                 dispatch(setUserProfile(userData));
+//                  setShowPart(true)
+//             }
+//         });
+//     }, []);
     // console.log('profile', profile)
 
     // https://nlvmtjoiaacntfspgptg.supabase.co/auth/v1/callback
+    //  console.log('this is teh redirect',chrome.identity.getRedirectURL());
     return (
         <>
             {!showPart ? (
-                <Auth />
+                <Auth setShowPart={setShowPart}  />
             ) : (
                 <div className="flex flex-col gap-[20px]">
                     <div className="flex justify-between">

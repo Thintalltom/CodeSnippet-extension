@@ -17,7 +17,7 @@ interface AddSnippetProps {
 }
 const AddSnippet = ({ setShowForm }: AddSnippetProps) => {
     const dispatch = useDispatch();
-    const { selected, prompt, title, code, tags } = useSelector(
+    const { selected,  title, code, tags } = useSelector(
         (state: RootState) => state.prompt
     );
 
@@ -37,6 +37,7 @@ const AddSnippet = ({ setShowForm }: AddSnippetProps) => {
         setCode("");
         setTags([]);
         setSelected("");
+        setShowForm(false)
     };
 
     //   console.log('saved data', prompt)

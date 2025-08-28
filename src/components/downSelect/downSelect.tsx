@@ -1,7 +1,7 @@
 import { useState } from "react";
 import TagFilter from "../Filter/TagFilter";
 import ViewData from "../ViewData/ViewData";
-
+import Sync from "../Sync/Sync";
 const DownSelect = () => {
   const [tab, setTab] = useState<number>(1);
 
@@ -44,9 +44,7 @@ const DownSelect = () => {
             </div>
         )}
         {tab === 2 && (
-          <p className="text-gray-700">
-            🔄 This is your <strong>Sync</strong> settings.
-          </p>
+          <Sync />
         )}
       </div>
     </div>
