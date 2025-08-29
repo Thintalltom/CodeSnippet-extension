@@ -1,6 +1,5 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { PromptProps, PromptState } from "../../types";
-
 const initialState: PromptState = {
   selected: "",
   prompt: [],

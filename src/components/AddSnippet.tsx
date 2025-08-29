@@ -12,6 +12,7 @@ import {
     setTags
 } from "../redux/slice/SavedCode";
 import type { RootState } from "../redux/store";
+import {supabase} from "../utils/supabase";
 interface AddSnippetProps {
     setShowForm: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -20,25 +21,78 @@ const AddSnippet = ({ setShowForm }: AddSnippetProps) => {
     const { selected,  title, code, tags } = useSelector(
         (state: RootState) => state.prompt
     );
+     const { session } = useSelector(
+        (state: RootState) => state.session
+    );
 
     const id = Date.now().toString();
 
 // console.log('prompt', prompt)
-    const handleSave = (e: any) => {
-        e.preventDefault();
-        dispatch(addPrompt({
-            id: id,
-            title: title,
-            code: code,
-            tags: tags,
-            selected: selected
-        }));
-        setTitle("");
-        setCode("");
-        setTags([]);
-        setSelected("");
-        setShowForm(false)
-    };
+    // const handleSave = (e: any) => {
+    //     e.preventDefault();
+    //     dispatch(addPrompt({
+    //         id: id,
+    //         title: title,
+    //         code: code,
+    //         tags: tags,
+    //         selected: selected
+    //     }));
+    //     setTitle("");
+    //     setCode("");
+    //     setTags([]);
+    //     setSelected("");
+    //     setShowForm(false)
+    // };
+const handleSave = async (e: React.FormEvent) => {
+  e.preventDefault();
+  // Get current logged-in user
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+
+  console.log('the current data user', user)
+  if (userError || !user) {
+    console.error("No user logged in:", userError);
+    return;
+  }
+
+  // Save to Redux
+  dispatch(
+    addPrompt({
+      id: id,
+      title: title,
+      code: code,
+      tags: tags,
+      selected: selected,
+    })
+  );
+
+  // Save to Supabase
+  const { error } = await supabase.from("prompts").insert([
+    {
+    //   id: id, // or you can use Supabase `uuid_generate_v4()`
+    title: title,
+    code: code,
+    tags: tags,
+    user_id: session?.user?.id,
+      selected: selected,
+    },
+  ]);
+
+  if (error) {
+    console.error("Error saving prompt:", error.message);
+  } else {
+    console.log("Prompt saved to Supabase!");
+  }
+
+  // Reset form
+  setTitle("");
+  setCode("");
+  setTags([]);
+  setSelected("");
+  setShowForm(false);
+};
 
     //   console.log('saved data', prompt)
     return (

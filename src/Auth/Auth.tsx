@@ -7,10 +7,11 @@ import { IoLockClosedOutline } from "react-icons/io5";
 // import { BiShowAlt } from "react-icons/bi";
 import { useEffect, useState } from "react";
 import { AuthForm } from "./AuthForm";
-import supabase from "../utils/supabase";
+import {supabase} from "../utils/supabase";
 import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "../redux/store";
 import { setSession } from "../redux/slice/UserSession";
+// import { setUserEmail } from "../redux/slice/UserProfile";
 interface AuthProps {
     setShowPart: React.Dispatch<React.SetStateAction<boolean>>
 }
@@ -108,6 +109,7 @@ const Auth = ({ setShowPart }: AuthProps) => {
   }
   }
 
+ 
   useEffect(() => {
     // fetch the current session when component mounts
     const getSession = async () => {
@@ -117,6 +119,7 @@ const Auth = ({ setShowPart }: AuthProps) => {
       } else {
         console.log('this is data', data)
         dispatch(setSession(data.session));
+    //    dispatch(setUserEmail(data.session?.user?.email))
 
         if (data.session) {
           console.log("Access token:", data.session.provider_token);

@@ -1,7 +1,7 @@
 import { FiGithub } from "react-icons/fi";
 import { CiCloud } from "react-icons/ci";
 import { useEffect, useState } from "react";
-import supabase from "../../utils/supabase";
+import {supabase} from "../../utils/supabase";
 import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "../../redux/store";
 import { setSession } from "../../redux/slice/UserSession";

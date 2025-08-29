@@ -1,8 +1,12 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../../redux/store";
 import { MdContentCopy } from "react-icons/md";
 import { useState } from "react";
 import { IoPricetagOutline } from "react-icons/io5";
+import {supabase} from "../../utils/supabase";
+import { useEffect } from "react";
+import {  setPrompt } from "../../redux/slice/SavedCode";
+import type { PromptProps } from "../../types";
 const ViewData = () => {
     const {prompt } = useSelector(
             (state: RootState) => state.prompt
@@ -14,6 +18,43 @@ const [copiedId, setCopiedId] = useState<string | null>(null);
     setCopiedId(id);
     setTimeout(() => setCopiedId(null), 2000);
   };
+  const [loading, setLoading] = useState<boolean>(false)
+  const dispatch = useDispatch()
+   useEffect(() => {
+    const fetchPrompts = async () => {
+      setLoading(true);
+
+      const { data: { user }, error: userError } = await supabase.auth.getUser();
+    if (userError || !user) {
+      console.error("No user logged in:", userError);
+      setLoading(false);
+      return;
+    }
+
+      // const { data, error } = await supabase
+      //   .from("prompts")
+      //   .select("*")   // RLS ensures only this user's rows are returned
+      //   .order("created_at", { ascending: false });
+
+      const { data, error } = await supabase
+      .from("prompts")
+      .select("*")
+      .eq("user_id", user.id)
+      .order("created_at", { ascending: false });
+      
+      if (error) {
+        console.error("Error fetching prompts:", error.message);
+      } else {
+        dispatch(setPrompt(data as PromptProps[]));
+      }
+
+      setLoading(false);
+    };
+
+    fetchPrompts();
+  }, []);
+
+  if (loading) return <p>Loading prompts...</p>;
   return (
     <div>
        <div className="flex flex-col gap-[20px]">
